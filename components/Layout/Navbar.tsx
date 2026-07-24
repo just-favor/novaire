@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, ShoppingBag } from "lucide-react";
+import { Menu, ShoppingBag, Sun, Moon, XIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 
 import Container from "./Container";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/useTheme";
 
 const brandLetters = "NOVAIRE".split("");
 
@@ -33,6 +35,7 @@ const letterVariants = {
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,6 +91,14 @@ export default function Navbar() {
 
           {/* Desktop */}
           <div className="hidden items-center gap-4 md:flex">
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+
             <Button variant="ghost" size="icon">
               <ShoppingBag className="h-5 w-5" />
             </Button>
@@ -110,9 +121,31 @@ export default function Navbar() {
 
               <SheetContent
                 side="right"
-                className="w-[320px] border-l border-white/90 bg-black/40  text-black shadow-2xl backdrop-blur-sm"
+                className="w-[320px] border-l-white dark:border-white/10 bg-black/40 dark:bg-black/40 text-black dark:text-white shadow-2xl backdrop-blur-sm"
               >
                 <div className="flex h-full flex-col justify-center px-2">
+                  {/* Mobile Top Bar - Theme toggle on left, Close on right */}
+                  <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 h-14">
+                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+                      {theme === "dark" ? (
+                        <Sun className="h-5 w-5" />
+                      ) : (
+                        <Moon className="h-5 w-5" />
+                      )}
+                    </Button>
+                    <SheetClose
+                      render={
+                        <Button
+                          variant="ghost"
+                          className=""
+                          size="icon-sm"
+                        />
+                      }
+                    >
+                      <XIcon />
+                      <span className="sr-only">Close</span>
+                    </SheetClose>
+                  </div>
                   <nav className="flex flex-col space-y-1">
                     <Link
                       href="/"
