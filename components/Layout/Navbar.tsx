@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, ShoppingBag, Sun, Moon, XIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { navigationLinks } from "@/constants/navigation";
 
 import {
   Sheet,
@@ -63,7 +64,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 shadow-sm ${
+      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
         isScrolled
           ? "border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-md"
           : "bg-transparent backdrop-blur-lg"
@@ -123,7 +124,7 @@ export default function Navbar() {
                 side="right"
                 className="w-[320px] border-l-white dark:border-white/10 bg-black/40 dark:bg-black/40 text-black dark:text-white shadow-2xl backdrop-blur-sm"
               >
-                <div className="flex h-full flex-col justify-center px-2">
+                <div className="flex h-full flex-col justify-start px-2">
                   {/* Mobile Top Bar - Theme toggle on left, Close on right */}
                   <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 h-14">
                     <Button variant="ghost" size="icon" onClick={toggleTheme}>
@@ -146,57 +147,22 @@ export default function Navbar() {
                       <span className="sr-only">Close</span>
                     </SheetClose>
                   </div>
-                  <nav className="flex flex-col space-y-1">
-                    <Link
-                      href="/"
-                      className="group relative border-b border-white/6 py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
-                    >
-                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        Home
-                      </span>
-                      <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-                    </Link>
 
+                  <nav className="mt-20 flex flex-col space-y-1 text-black dark:text-[#ffbf50]">
+                  {navigationLinks.map((link) => (
                     <Link
-                      href="/shop"
+                      key={link.href}
+                      href={link.href}
                       className="group relative border-b border-white/[0.06] py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
                     >
                       <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        Shop
+                        {link.name}
                       </span>
-                      <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-                    </Link>
 
-                    <Link
-                      href="/collections"
-                      className="group relative border-b border-white/[0.06] py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
-                    >
-                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        Collections
-                      </span>
                       <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
                     </Link>
-
-                    <Link
-                      href="/about"
-                      className="group relative border-b border-white/[0.06] py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
-                    >
-                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        About
-                      </span>
-                      <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-                    </Link>
-
-                    <Link
-                      href="/contact"
-                      className="group relative border-b border-white/[0.06] py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
-                    >
-                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        Contact
-                      </span>
-                      <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-                    </Link>
-                  </nav>
+                  ))}
+                </nav>
 
                   <Button className="mt-10 w-fit mx-auto bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)]">
                     Login
