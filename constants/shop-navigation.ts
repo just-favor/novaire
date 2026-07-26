@@ -1,22 +1,22 @@
 export const shopNavigation = [
-    {
-      name: "New Arrivals",
-      href: "/new-arrivals",
-    },
-    {
-      name: "Men",
-      href: "/men",
-    },
-    {
-      name: "Women",
-      href: "/women",
-    },
-    {
-      name: "Collections",
-      href: "/collections",
-    },
-    {
-      name: "Sale",
-      href: "/sale",
-    },
-  ];
+  {
+    name: "New Arrivals",
+    href: "/shop#new-arrivals",
+  },
+  {
+    name: "Men",
+    href: "/shop#men",
+  },
+  {
+    name: "Women",
+    href: "/shop#women",
+  },
+  {
+    name: "Essentials",
+    href: "/shop#essentials",
+  },
+  {
+    name: "Sale",
+    href: "/shop#sale",
+  },
+];

@@ -67,7 +67,7 @@ export default function SecondaryHeader() {
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="fixed top-20 left-0 z-40 w-full border-b bg-black/60 dark:bg-[#ffbf504b] backdrop-blur-xl shadow-md"
+        className="fixed top-20 left-0 z-40 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl shadow-md"
       >
         <Container>
           <div className="flex h-16 items-center justify-between gap-8">
@@ -77,10 +77,10 @@ export default function SecondaryHeader() {
               className="hidden w-64 lg:block"
             >
               <div className="relative group">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white dark:text-white/40 group-focus-within:text-[#ffbf50] transition-colors duration-300" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40 group-focus-within:text-[#ffbf50] transition-colors duration-300" />
                 <Input
                   placeholder="Search products..."
-                  className="pl-10 w-full border-white dark:border-white/10 bg-black/5 dark:bg-white/5 text-white dark:text-[#ffbf50] placeholder:text-white/30 dark:placeholder:text-white/30 focus:border-[#ffbf50]/50 focus:ring-[#ffbf50]/20 transition-all duration-300"
+                  className="pl-10 w-full border-white/10 bg-white/5 text-[#ffbf50] placeholder:text-white/30 focus:border-[#ffbf50]/50 focus:ring-[#ffbf50]/20 transition-all duration-300"
                 />
               </div>
             </motion.div>
@@ -109,7 +109,7 @@ export default function SecondaryHeader() {
                       className={`group relative pb-1 text-sm uppercase tracking-[0.18em] transition-colors duration-300 ${
                         active
                           ? "text-[#ffbf50]"
-                          : "text-white dark:text-[#ffbf50]"
+                          : "text-white/80 hover:text-[#ffbf50]"
                       }`}
                     >
                       {link.name}
@@ -117,7 +117,7 @@ export default function SecondaryHeader() {
                         className={`absolute left-0 -bottom-1 h-px transition-all duration-500 ${
                           active
                             ? "w-full bg-[#ffbf50]"
-                            : "w-0 bg-black/40 dark:bg-white/40 group-hover:w-full"
+                            : "w-0 bg-white/40 group-hover:w-full"
                         }`}
                       />
                       <span className="absolute inset-x-0 -bottom-1 h-px scale-x-0 bg-gradient-to-r from-transparent via-[#ffbf50]/40 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
@@ -171,14 +171,14 @@ export default function SecondaryHeader() {
       <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
         <SheetContent
           side="bottom"
-          className="rounded-t-2xl border-t border-white/20 bg-black/80 backdrop-blur-2xl text-white shadow-2xl"
+          className="rounded-t-2xl border-t border-white/20 bg-black/90 backdrop-blur-2xl text-white shadow-2xl"
         >
           <div className="px-4 py-6">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-white/20" />
             <h3 className="text-center text-xs uppercase tracking-[0.3em] text-white/40 mb-6">
               Shop Categories
             </h3>
-            <nav className="flex flex-col space-y-1">
+            <nav className="flex flex-col space-y-3 py-2">
               {shopNavigation.map((link, index) => {
                 const active = pathname === link.href;
                 return (
@@ -195,7 +195,7 @@ export default function SecondaryHeader() {
                     <SheetClose
                       render={
                         <button
-                          className={`group flex w-full items-center justify-between border-b border-white/[0.06] py-4 text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em] ${
+                          className={`group flex w-full items-center justify-center py-3 text-lg font-light tracking-[0.2em] transition-all duration-500 hover:tracking-[0.25em] ${
                             active
                               ? "text-[#ffbf50]"
                               : "text-white/70 hover:text-white"
@@ -204,17 +204,28 @@ export default function SecondaryHeader() {
                       }
                       onClick={() => router.push(link.href)}
                     >
-                      <span className="relative z-10">{link.name}</span>
+                      {/* Left horizontal line */}
                       <span
-                        className={`h-px flex-1 mx-4 transition-all duration-500 ${
+                        className={`h-px flex-1 transition-all duration-500 ${
                           active
-                            ? "bg-[#ffbf50]/40"
-                            : "bg-white/10 group-hover:bg-white/30"
+                            ? "bg-gradient-to-r from-transparent via-[#ffbf50]/40 to-[#ffbf50]/60"
+                            : "bg-gradient-to-r from-transparent via-white/15 to-white/30 group-hover:via-white/30 group-hover:to-white/50"
                         }`}
                       />
-                      <span className="text-xs tracking-[0.2em] text-white/20 group-hover:text-[#ffbf50]/60 transition-colors duration-300">
-                        EXPLORE
+
+                      {/* Centered Link Name */}
+                      <span className="px-4 uppercase font-heading text-base sm:text-lg">
+                        {link.name}
                       </span>
+
+                      {/* Right horizontal line */}
+                      <span
+                        className={`h-px flex-1 transition-all duration-500 ${
+                          active
+                            ? "bg-gradient-to-r from-[#ffbf50]/60 via-[#ffbf50]/40 to-transparent"
+                            : "bg-gradient-to-r from-white/30 via-white/15 to-transparent group-hover:from-white/50 group-hover:via-white/30"
+                        }`}
+                      />
                     </SheetClose>
                   </motion.div>
                 );
@@ -229,4 +240,7 @@ export default function SecondaryHeader() {
     </>
   );
 }
+
+
+
 

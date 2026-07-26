@@ -2,20 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, ShoppingBag, Sun, Moon, XIcon } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
-import { navigationLinks } from "@/constants/navigation";
-
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
 
 import Container from "./Container";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/useTheme";
 
 const brandLetters = "NOVAIRE".split("");
 
@@ -35,8 +26,6 @@ const letterVariants = {
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,24 +39,12 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll when sidebar is open
-  useEffect(() => {
-    if (isSidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isSidebarOpen]);
-
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
         isScrolled
-          ? "border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-md"
-          : "bg-transparent backdrop-blur-lg"
+          ? "border-b border-white/20 bg-black/40 backdrop-blur-xl shadow-md text-white"
+          : "bg-white text-black backdrop-blur-lg border-b border-white/10"
       }`}
     >
       <Container>
@@ -90,93 +67,20 @@ export default function Navbar() {
             </h1>
           </Link>
 
-          {/* Desktop */}
-          <div className="hidden items-center gap-4 md:flex">
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-
-            <Button variant="ghost" size="icon">
+          {/* Desktop & Mobile Actions */}
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="cursor-pointer">
               <ShoppingBag className="h-5 w-5" />
             </Button>
 
-            <Button>Login</Button>
-          </div>
-
-          {/* Mobile */}
-          <div className="flex items-center gap-2 md:hidden">
-            <Button variant="ghost" size="icon">
-              <ShoppingBag className="h-5 w-5" />
+            <Button className="cursor-pointer">
+              Login
             </Button>
-
-            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-              <SheetTrigger
-                render={<Button variant="ghost" size="icon" />}
-              >
-                <Menu className="h-6 w-6" />
-              </SheetTrigger>
-
-              <SheetContent
-                side="right"
-                className="w-[320px] border-l-white dark:border-white/10 bg-black/40 dark:bg-black/40 text-black dark:text-white shadow-2xl backdrop-blur-sm"
-              >
-                <div className="flex h-full flex-col justify-start px-2">
-                  {/* Mobile Top Bar - Theme toggle on left, Close on right */}
-                  <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 h-14">
-                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                      {theme === "dark" ? (
-                        <Sun className="h-5 w-5" />
-                      ) : (
-                        <Moon className="h-5 w-5" />
-                      )}
-                    </Button>
-                    <SheetClose
-                      render={
-                        <Button
-                          variant="ghost"
-                          className=""
-                          size="icon-sm"
-                        />
-                      }
-                    >
-                      <XIcon />
-                      <span className="sr-only">Close</span>
-                    </SheetClose>
-                  </div>
-
-                  <nav className="mt-20 flex flex-col space-y-1 text-black dark:text-[#ffbf50]">
-                  {navigationLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="group relative border-b border-white/[0.06] py-5 text-center text-lg font-light tracking-[0.15em] transition-all duration-500 hover:tracking-[0.25em]"
-                    >
-                      <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                        {link.name}
-                      </span>
-
-                      <span className="absolute inset-x-0 bottom-0 h-[1px] origin-center scale-x-0 bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-                    </Link>
-                  ))}
-                </nav>
-
-                  <Button className="mt-10 w-fit mx-auto bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)]">
-                    Login
-                  </Button>
-
-                  <p className="mt-6 text-center text-[10px] tracking-[0.3em] text-white">
-                    NOVAIRE
-                  </p>
-                </div>
-              </SheetContent>
-            </Sheet>
           </div>
         </div>
       </Container>
     </header>
   );
 }
+
+
