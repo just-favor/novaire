@@ -284,7 +284,7 @@ export default function Hero() {
           variants={ctaVariants}
           className="mt-6 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-xs sm:max-w-none"
         >
-          <Link href="/collections" className="w-full sm:w-auto">
+          <Link href="/shop" className="w-full sm:w-auto">
             <Button className="w-full sm:w-auto group relative overflow-hidden border border-[#ffbf50]/40 bg-[#ffbf50]/15 px-6 py-5 sm:px-8 sm:py-6 text-[10px] sm:text-xs tracking-[0.25em] sm:tracking-[0.3em] text-[#ffbf50] uppercase backdrop-blur-md transition-all duration-500 hover:bg-[#ffbf50]/25 hover:shadow-[0_0_30px_rgba(255,191,80,0.2)]">
               <span className="relative z-10 flex items-center justify-center gap-2.5">
                 Explore Collection
