@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ShoppingBag, Sparkles, ChevronLeft, SlidersHorizontal } from "lucide-react";
@@ -14,6 +14,7 @@ import Footer from "@/components/Layout/Footer";
 import { products, categoriesList, subCategories, Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 
 // Map URL slug -> category id used in data
 const validCategorySlugs = categoriesList.map((c) => c.id);
@@ -41,6 +42,12 @@ export default function CategoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [cartNotification, setCartNotification] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 600);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleAddToCart = (productName: string) => {
     setCartNotification(`Added "${productName}" to your bag`);
@@ -226,7 +233,13 @@ export default function CategoryPage() {
           </div>
 
           {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
+          {!loaded ? (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
               {filteredProducts.map((product) => (
                 <motion.div

@@ -127,8 +127,7 @@ export default function SecondaryHeader() {
             {/* Navigation - Desktop */}
             <nav className="mx-auto hidden items-center gap-10 md:flex">
               {shopNavigation.map((link) => {
-                const hash = typeof window !== "undefined" ? window.location.hash : "";
-                const active = pathname === link.href || pathname + hash === link.href;
+                const active = pathname === link.href || pathname.startsWith(link.href);
                 const isHovered = hoveredLink === link.name;
 
                 return (

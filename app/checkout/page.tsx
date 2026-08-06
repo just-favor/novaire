@@ -25,7 +25,7 @@ const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } }
 type Step = "shipping" | "payment" | "confirmed";
 
 export default function CheckoutPage() {
-  const { items, total, count } = useCart();
+  const { items, total, count, clearCart } = useCart();
   const { user } = useAuth();
   const [step, setStep] = useState<Step>("shipping");
   const [loading, setLoading] = useState(false);
@@ -56,6 +56,7 @@ export default function CheckoutPage() {
     await new Promise((r) => setTimeout(r, 1800));
     setLoading(false);
     setStep("confirmed");
+    clearCart();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
