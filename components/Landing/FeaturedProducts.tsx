@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useProductModal } from "@/context/ProductModalContext";
 
 const products = [
   {
@@ -100,11 +102,10 @@ const containerVariants = {
 };
 
 const headerWordVariants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 1.0,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
@@ -113,13 +114,12 @@ const headerWordVariants = {
 };
 
 const productCardVariants = {
-  hidden: { opacity: 0, y: 50, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.8,
+      duration: 0.7,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -146,22 +146,28 @@ function formatPrice(price: number) {
 }
 
 function ProductCard({ product }: { product: (typeof products)[0] }) {
+  const { open } = useProductModal();
+
   return (
     <motion.div
       variants={productCardVariants}
-      className="group relative flex flex-col"
+      onClick={() => open(product)}
+      className="group relative flex flex-col cursor-pointer"
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-black/20">
-        <img
+        <Image
           src={product.image}
           alt={product.name}
-          className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+          fill
+          className="object-cover transition-all duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-          <Button className="w-full border border-[#ffbf50]/30 bg-[#ffbf50]/10 text-xs tracking-[0.2em] text-[#ffbf50] uppercase backdrop-blur-md transition-all duration-500 hover:bg-[#ffbf50]/20 hover:shadow-[0_0_30px_rgba(255,191,80,0.12)]">
+          <Button
+            onClick={(e) => { e.stopPropagation(); open(product); }}
+            className="w-full border border-[#ffbf50]/30 bg-[#ffbf50]/10 text-xs tracking-[0.2em] text-[#ffbf50] uppercase backdrop-blur-md transition-all duration-500 hover:bg-[#ffbf50]/20 hover:shadow-[0_0_30px_rgba(255,191,80,0.12)]">
             <ShoppingBag className="mr-2 h-3.5 w-3.5" />
-            Quick Add
+            Quick View
           </Button>
         </div>
       </div>

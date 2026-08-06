@@ -3,20 +3,25 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ArrowRight, ShoppingBag, Filter, Check, ChevronRight, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Search, ArrowRight, ShoppingBag, Filter, Check, ChevronRight, SlidersHorizontal, Sparkles, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { useProductModal } from "@/context/ProductModalContext";
+import { useSearch } from "@/context/SearchContext";
 
 import Navbar from "@/components/Layout/Navbar";
 import SecondaryHeader from "@/components/Layout/Secnav";
 import Footer from "@/components/Layout/Footer";
-import { products, categoriesList, Product } from "@/data/products";
+import { products, categoriesList, subCategories, Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function ShopPage() {
+  const { open } = useProductModal();
+  const { query: searchQuery, setQuery: setSearchQuery } = useSearch();
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [cartNotification, setCartNotification] = useState<string | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   // Handle hash deep-linking on page load (e.g. /shop#men)
   useEffect(() => {
@@ -180,7 +185,7 @@ export default function ShopPage() {
 
                 {/* Section Grid */}
                 {filteredProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-8">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
                     {filteredProducts.map((product) => (
                       <motion.div
                         key={product.id}
@@ -188,14 +193,16 @@ export default function ShopPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-30px" }}
                         transition={{ duration: 0.5 }}
-                        className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/40 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.08)]"
+                        onClick={() => open(product)}
+                        className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/40 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.08)] cursor-pointer"
                       >
                         {/* Card Image Container */}
                         <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/40">
-                          <img
+                          <Image
                             src={product.image}
                             alt={product.name}
-                            className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                            fill
+                            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                           />
                           
                           {/* Dark overlay gradient */}
@@ -223,11 +230,11 @@ export default function ShopPage() {
                           {/* Quick Add Overlay Button */}
                           <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                             <Button
-                              onClick={() => handleAddToCart(product.name)}
-                              className="w-full bg-[#ffbf50] text-black hover:bg-[#ffbf50]/90 text-xs tracking-[0.2em] uppercase py-5 shadow-xl font-medium"
+                              onClick={(e) => { e.stopPropagation(); open(product); }}
+                              className="w-full bg-[#ffbf50] text-black hover:bg-[#ffbf50]/90 text-[8px] md:text-xs tracking-[0.2em] uppercase py-5 shadow-xl font-medium"
                             >
                               <ShoppingBag className="h-3.5 w-3.5 mr-2" />
-                              Add to Bag
+                              Quick View
                             </Button>
                           </div>
                         </div>
@@ -258,9 +265,9 @@ export default function ShopPage() {
                               )}
                             </div>
 
-                            <span className="text-[10px] tracking-[0.2em] text-[#ffbf50]/60 uppercase group-hover:translate-x-1 transition-transform duration-300">
+                            {/* <span className="text-[10px] tracking-[0.2em] text-[#ffbf50]/60 uppercase group-hover:translate-x-1 transition-transform duration-300">
                               Details &rarr;
-                            </span>
+                            </span> */}
                           </div>
                         </div>
                       </motion.div>
@@ -338,27 +345,74 @@ export default function ShopPage() {
                 <span className="text-[10px] font-mono opacity-60">60</span>
               </button>
 
-              {categoriesList.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => scrollToCategory(cat.id)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs tracking-[0.18em] uppercase transition-all duration-300 ${
-                    activeCategory === cat.id
-                      ? "bg-[#ffbf50]/15 border border-[#ffbf50]/40 text-[#ffbf50] font-medium"
-                      : "bg-white/[0.02] border border-white/5 text-white/60 hover:border-white/20 hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        activeCategory === cat.id ? "bg-[#ffbf50]" : "bg-white/20"
+              {categoriesList.map((cat) => {
+                const subs = subCategories[cat.id];
+                const isHovered = hoveredCategory === cat.id;
+                const isActive = activeCategory === cat.id;
+                return (
+                  <div
+                    key={cat.id}
+                    className="relative"
+                    onMouseEnter={() => setHoveredCategory(cat.id)}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                  >
+                    <button
+                      onClick={() => scrollToCategory(cat.id)}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs tracking-[0.18em] uppercase transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#ffbf50]/15 border border-[#ffbf50]/40 text-[#ffbf50] font-medium"
+                          : "bg-white/[0.02] border border-white/5 text-white/60 hover:border-white/20 hover:text-white"
                       }`}
-                    />
-                    <span>{cat.name}</span>
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                            isActive ? "bg-[#ffbf50]" : "bg-white/20"
+                          }`}
+                        />
+                        <span>{cat.name}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono opacity-60">{cat.count}</span>
+                        {subs && (
+                          <ChevronDown
+                            className={`h-3 w-3 transition-transform duration-300 ${
+                              isHovered ? "rotate-180 text-[#ffbf50]" : "text-white/30"
+                            }`}
+                          />
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Hover Subcategory Dropdown */}
+                    {subs && (
+                      <AnimatePresence>
+                        {isHovered && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.22, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="mt-1 ml-4 pl-4 border-l border-[#ffbf50]/20 space-y-0.5 pb-1">
+                              {subs.map((sub) => (
+                                <button
+                                  key={sub}
+                                  onClick={() => scrollToCategory(cat.id)}
+                                  className="w-full text-left px-3 py-1.5 rounded-lg text-[10px] tracking-[0.15em] text-white/40 uppercase hover:text-[#ffbf50] hover:bg-[#ffbf50]/5 transition-all duration-200"
+                                >
+                                  {sub}
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
                   </div>
-                  <span className="text-[10px] font-mono opacity-60">{cat.count}</span>
-                </button>
-              ))}
+                );
+              })}
             </div>
 
             {/* Sort Options */}

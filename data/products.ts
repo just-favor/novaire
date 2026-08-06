@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: "new-arrivals" | "men" | "women" | "essentials" | "sale";
+  category: "new-arrivals" | "men" | "women" | "children" | "essentials" | "sale";
   categoryName: string;
   price: number;
   originalPrice?: number;
@@ -13,11 +13,19 @@ export interface Product {
 
 export const categoriesList = [
   { id: "new-arrivals", name: "New Arrivals", count: 12 },
-  { id: "men", name: "Men's Tailoring", count: 12 },
-  { id: "women", name: "Women's Atelier", count: 12 },
+  { id: "men", name: "Men's Fashion", count: 12 },
+  { id: "women", name: "Women's Fashion", count: 12 },
+  { id: "children", name: "Children's Fashion", count: 12 },
   { id: "essentials", name: "Signature Essentials", count: 12 },
   { id: "sale", name: "Archive & Sale", count: 12 },
 ];
+
+export const subCategories: Record<string, string[]> = {
+  men: ["Suits", "Watches", "Shirts", "Trousers", "Outerwear", "Shoes", "Accessories"],
+  women: ["Gowns", "Dresses", "Blouses", "Handbags", "Heels", "Jewellery", "Scarves"],
+  children: ["Boys 2-8 yrs", "Girls 2-8 yrs", "Teens 9-16 yrs", "School Wear", "Footwear", "Accessories"],
+  essentials: ["Knitwear", "Loungewear", "Fragrance", "Leather Goods", "Stationery"],
+};
 
 export const products: Product[] = [
   // --- NEW ARRIVALS (12 Products) ---
@@ -595,5 +603,121 @@ export const products: Product[] = [
     originalPrice: 720,
     image: "https://images.unsplash.com/photo-1608032077018-c9aad9565d2c?q=80&w=1000&auto=format&fit=crop",
     tagline: "Generous 100% cashmere blanket wrap for jetset travel.",
+  },
+
+  // --- CHILDREN'S FASHION (12 Products) ---
+  {
+    id: "ch-1",
+    name: "Petit Velvet Blazer",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 320,
+    image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Midnight velvet single-button blazer for ages 4–10.",
+    isNew: true,
+  },
+  {
+    id: "ch-2",
+    name: "Miniature Wool Peacoat",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 450,
+    image: "https://images.unsplash.com/photo-1604917877934-07d8d248d396?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Classic double-breasted peacoat in premium Shetland wool.",
+    isBestSeller: true,
+  },
+  {
+    id: "ch-3",
+    name: "Ivory Linen Occasion Dress",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 280,
+    image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Smocked ivory linen dress with hand-embroidered collar detail.",
+    isNew: true,
+  },
+  {
+    id: "ch-4",
+    name: "Junior Cashmere Rollneck",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 220,
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Featherlight cashmere rollneck knit for toddlers to teens.",
+  },
+  {
+    id: "ch-5",
+    name: "Oxford Brogue Lace-Ups",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 195,
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Burnished leather brogue Oxford in miniature for school and occasion.",
+    isBestSeller: true,
+  },
+  {
+    id: "ch-6",
+    name: "Heirloom Tartan Kilt Set",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 380,
+    image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Woven tartan kilt with matching suspenders and dress shirt.",
+  },
+  {
+    id: "ch-7",
+    name: "Teen Tailored Trouser",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 175,
+    image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Slim-cut wool-blend trousers tailored for ages 10–16.",
+  },
+  {
+    id: "ch-8",
+    name: "Silk Ceremony Bow Blouse",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 165,
+    image: "https://images.unsplash.com/photo-1476234251651-f353703a034d?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Pussy-bow silk blouse in ivory pearl for special occasions.",
+    isNew: true,
+  },
+  {
+    id: "ch-9",
+    name: "Miniature Canvas Tote",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 95,
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Vachetta leather-trimmed canvas mini tote in natural ecru.",
+  },
+  {
+    id: "ch-10",
+    name: "Heritage Stripe Sailor Suit",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 310,
+    image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Classic Breton sailor suit in navy and ivory for ages 2–8.",
+    isBestSeller: true,
+  },
+  {
+    id: "ch-11",
+    name: "Corduroy Pinafore Dress",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 145,
+    image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Soft-rib corduroy pinafore in rich forest green, ages 3–10.",
+  },
+  {
+    id: "ch-12",
+    name: "Cashmere Beanie & Mitten Set",
+    category: "children",
+    categoryName: "Children's Fashion",
+    price: 120,
+    image: "https://images.unsplash.com/photo-1608032077018-c9aad9565d2c?q=80&w=1000&auto=format&fit=crop",
+    tagline: "Matching pure cashmere beanie and mittens in soft oatmeal.",
   },
 ];

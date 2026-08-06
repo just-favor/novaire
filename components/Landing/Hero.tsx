@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +12,7 @@ const words = "LUXURY REDEFINED".split(" ");
 // 5 background images representing each collection
 const backgroundSlides = [
   {
-    url: "https://images.unsplash.com/photo-1606041011872-596597976b25?q=80&w=2070&auto=format&fit=crop",
+    url: "/young-trendy-woman-model-outside-street.jpg",
     label: "NEW ARRIVALS",
   },
   {
@@ -19,7 +20,7 @@ const backgroundSlides = [
     label: "MEN",
   },
   {
-    url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop",
+    url: "/woman-surrounded-by-clothing-pile.jpg",
     label: "WOMEN",
   },
   {
@@ -27,7 +28,7 @@ const backgroundSlides = [
     label: "COLLECTIONS",
   },
   {
-    url: "https://images.unsplash.com/photo-1608032077018-c9aad9565d2c?q=80&w=1888&auto=format&fit=crop",
+    url: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     label: "SALE",
   },
 ];
@@ -37,48 +38,47 @@ const heroVariants = {
   visible: {
     opacity: 1,
     transition: {
-      delay: 3.2,
-      duration: 1.6,
+      delay: 0.6,
+      duration: 1.2,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
 };
 
 const wordVariants = {
-  hidden: { opacity: 0, y: 60, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      delay: 3.6 + i * 0.2,
-      duration: 1.2,
+      delay: 0.9 + i * 0.15,
+      duration: 0.9,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   }),
 };
 
 const taglineVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 4.4,
-      duration: 1.2,
+      delay: 1.4,
+      duration: 0.9,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
 };
 
 const ctaVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 5.0,
-      duration: 1.0,
+      delay: 1.8,
+      duration: 0.8,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -89,8 +89,8 @@ const lineVariants = {
   visible: {
     scaleX: 1,
     transition: {
-      delay: 3.4,
-      duration: 1.4,
+      delay: 0.4,
+      duration: 1.0,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -101,8 +101,8 @@ const decorativeLineVariants = {
   visible: {
     scaleX: 1,
     transition: {
-      delay: 4.8,
-      duration: 1.2,
+      delay: 1.6,
+      duration: 0.9,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -113,8 +113,8 @@ const bgOverlayVariants = {
   visible: {
     opacity: 1,
     transition: {
-      delay: 2.8,
-      duration: 2.0,
+      delay: 0.1,
+      duration: 1.2,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -164,11 +164,11 @@ export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [carouselActive, setCarouselActive] = useState(false);
 
-  // Start carousel after initial entrance animations complete (~6s)
+  // Start carousel after initial entrance animations complete
   useEffect(() => {
     const startTimer = setTimeout(() => {
       setCarouselActive(true);
-    }, 5800);
+    }, 2500);
 
     return () => clearTimeout(startTimer);
   }, []);
@@ -187,7 +187,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-[100dvh] h-[100dvh] w-full overflow-hidden bg-black text-white">
       {/* Background Image Carousel (Unified Image for all screen sizes) */}
-      <AnimatePresence mode="popLayout">
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
           initial="initial"
@@ -196,10 +196,12 @@ export default function Hero() {
           variants={slideVariants}
           className="absolute inset-0 overflow-hidden"
         >
-          <img
+          <Image
             src={backgroundSlides[currentSlide].url}
             alt={backgroundSlides[currentSlide].label}
-            className="h-full w-full object-cover object-center transition-transform duration-700"
+            fill
+            priority={currentSlide === 0}
+            className="object-cover object-center"
           />
         </motion.div>
       </AnimatePresence>

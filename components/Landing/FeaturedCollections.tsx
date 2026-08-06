@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 const collections = [
@@ -144,10 +145,8 @@ function CollectionCard({
         {/* Background Image Carousel with Fade Animation */}
         <div className="absolute inset-0 overflow-hidden bg-black">
           <AnimatePresence mode="popLayout">
-            <motion.img
+            <motion.div
               key={collection.images[currentImageIndex]}
-              src={collection.images[currentImageIndex]}
-              alt={collection.title}
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.02 }}
@@ -155,8 +154,15 @@ function CollectionCard({
                 duration: 1.4,
                 ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
               }}
-              className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-            />
+              className="absolute inset-0"
+            >
+              <Image
+                src={collection.images[currentImageIndex]}
+                alt={collection.title}
+                fill
+                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            </motion.div>
           </AnimatePresence>
 
           {/* Gradient Overlays */}

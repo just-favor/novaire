@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -17,13 +18,12 @@ const containerVariants = {
 };
 
 const imageVariants = {
-  hidden: { opacity: 0, x: -60, filter: "blur(8px)" },
+  hidden: { opacity: 0, x: -40 },
   visible: {
     opacity: 1,
     x: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 1.4,
+      duration: 1.2,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -54,13 +54,12 @@ const labelVariants = {
 };
 
 const headingVariants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 1.2,
+      duration: 1.0,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -103,6 +102,17 @@ const statVariants = {
   },
 };
 
+const lineVariants = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: {
+      duration: 1.0,
+      ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
+    },
+  },
+};
+
 export default function BrandStory() {
   return (
     <section className="relative w-full overflow-hidden bg-black py-24 sm:py-32">
@@ -124,10 +134,11 @@ export default function BrandStory() {
           {/* Image Side */}
           <motion.div variants={imageVariants} className="relative">
             <div className="relative aspect-[4/5] overflow-hidden">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop"
                 alt="NOVAIRE atelier craftsmanship"
-                className="h-full w-full object-cover transition-all duration-1000"
+                fill
+                className="object-cover transition-all duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
@@ -227,13 +238,3 @@ export default function BrandStory() {
   );
 }
 
-const lineVariants = {
-  hidden: { scaleX: 0 },
-  visible: {
-    scaleX: 1,
-    transition: {
-      duration: 1.2,
-      ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
-    },
-  },
-};

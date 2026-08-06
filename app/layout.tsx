@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ProductModalProvider } from "@/context/ProductModalContext";
+import ProductModal from "@/components/ui/ProductModal";
+import { SearchProvider } from "@/context/SearchContext";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/ui/CartDrawer";
+import CartToast from "@/components/ui/CartToast";
+import { WishlistProvider } from "@/context/WishlistContext";
+import WishlistToast from "@/components/ui/WishlistToast";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,24 +38,31 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
         <script
+          // biome-ignore lint: theme init must run before paint
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (!theme) {
-                    theme = 'dark';
-                    localStorage.setItem('theme', 'dark');
-                  }
-                  document.documentElement.classList.toggle('dark', theme === 'dark');
-                } catch(e) {}
-              })();
-            `,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='dark';localStorage.setItem('theme','dark');}document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <SearchProvider>
+              <ProductModalProvider>
+                {children}
+                <ProductModal />
+                <CartDrawer />
+                <CartToast />
+                <WishlistToast />
+              </ProductModalProvider>
+            </SearchProvider>
+          </WishlistProvider>
+        </CartProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
