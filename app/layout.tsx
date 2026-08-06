@@ -24,6 +24,28 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NOVAIRE — Curated Luxury",
   description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+  metadataBase: new URL("https://novaire.vercel.app"),
+  openGraph: {
+    title: "NOVAIRE — Curated Luxury",
+    description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+    url: "https://novaire.vercel.app",
+    siteName: "NOVAIRE",
+    images: [
+      {
+        url: "/young-trendy-woman-model-outside-street.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NOVAIRE — Curated Luxury",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NOVAIRE — Curated Luxury",
+    description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+    images: ["/young-trendy-woman-model-outside-street.jpg"],
+  },
 };
 
 export default function RootLayout({

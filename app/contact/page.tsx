@@ -307,11 +307,7 @@ export default function ContactPage() {
 
                   {/* Privacy note */}
                   <motion.p variants={fadeUp} className="text-[10px] tracking-[0.15em] text-white/20 leading-relaxed">
-                    Your information is handled with strict confidence and will never be shared with third parties. See our{" "}
-                    <Link href="/privacy" className="text-white/35 underline underline-offset-2 transition-colors hover:text-[#ffbf50]/60">
-                      Privacy Policy
-                    </Link>
-                    .
+                    Your information is handled with strict confidence and will never be shared with third parties.
                   </motion.p>
 
                   {/* Submit */}

@@ -10,7 +10,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       <Navbar />
-      <div className="flex flex-1 flex-col items-center justify-center px-4 text-center">
+      <div className=" min-h-[80vh] flex flex-1 flex-col items-center justify-center px-4 text-center">
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[#ffbf50]/5 blur-[160px]" />
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -28,7 +28,7 @@ export default function NotFound() {
             <h1 className="font-heading text-3xl sm:text-4xl tracking-[0.2em] text-white/80">
               Lost in the Atelier
             </h1>
-            <p className="text-sm tracking-[0.15em] text-white/30 max-w-sm mx-auto leading-relaxed">
+            <p className="text-sm tracking-[0.15em] text-white/60 max-w-sm mx-auto leading-relaxed">
               The page you&apos;re looking for doesn&apos;t exist or has been moved.
             </p>
           </div>
@@ -42,7 +42,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/"
-              className="text-[10px] uppercase tracking-[0.4em] text-white/25 transition-colors hover:text-white/50"
+              className="text-[10px] uppercase tracking-[0.4em] text-white/60 transition-colors hover:text-white"
             >
               Go Home
             </Link>

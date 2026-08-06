@@ -118,7 +118,7 @@ export default function Footer() {
                   NOVAIRE
                 </h2>
               </Link>
-              <p className="max-w-sm text-xs leading-relaxed tracking-[0.15em] text-white/30">
+              <p className="max-w-sm text-xs leading-relaxed tracking-[0.15em] text-white/60">
                 Curated collections for the discerning few — where every piece
                 tells a story of timeless elegance and uncompromising quality.
               </p>
@@ -129,7 +129,7 @@ export default function Footer() {
                   <Link
                     key={social.name}
                     href={social.href}
-                    className="text-[10px] tracking-[0.3em] text-white/20 uppercase transition-colors duration-300 hover:text-[#ffbf50]/60"
+                    className="text-[10px] tracking-[0.3em] text-white/50 uppercase transition-colors duration-300 hover:text-[#ffbf50]"
                   >
                     {social.name}
                   </Link>
@@ -146,7 +146,7 @@ export default function Footer() {
                 <h3 className="font-heading text-xl tracking-[0.15em] text-white/70">
                   Receive Exclusive Access
                 </h3>
-                <p className="max-w-sm text-xs leading-relaxed tracking-[0.1em] text-white/30">
+                <p className="max-w-sm text-xs leading-relaxed tracking-[0.1em] text-white/55">
                   Be the first to know about limited drops, private sales, and
                   atelier releases.
                 </p>
@@ -189,7 +189,7 @@ export default function Footer() {
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="group inline-flex items-center gap-2 text-xs tracking-[0.15em] text-white/30 transition-all duration-300 hover:text-white/60"
+                        className="group inline-flex items-center gap-2 text-xs tracking-[0.15em] text-white/55 transition-all duration-300 hover:text-white"
                       >
                         <span className="h-px w-0 bg-[#ffbf50]/40 transition-all duration-300 group-hover:w-4" />
                         {link.name}
@@ -206,17 +206,15 @@ export default function Footer() {
                 Contact
               </h4>
               <ul className="space-y-4">
-                <li className="text-xs tracking-[0.1em] text-white/30 leading-relaxed">
-                  47 Rue de la Paix
-                  <br />
-                  Paris, 75002
-                  <br />
-                  France
+                <li className="text-xs tracking-[0.1em] text-white/55 leading-relaxed">
+                  Port Harcourt <br />
+                  Rivers State <br />
+                  Nigeria
                 </li>
                 <li>
                   <Link
                     href="mailto:concierge@novaire.com"
-                    className="text-xs tracking-[0.1em] text-white/40 transition-colors duration-300 hover:text-[#ffbf50]/60"
+                    className="text-xs tracking-[0.1em] text-white/60 transition-colors duration-300 hover:text-[#ffbf50]"
                   >
                     concierge@novaire.com
                   </Link>
@@ -224,9 +222,9 @@ export default function Footer() {
                 <li>
                   <Link
                     href="tel:+33123456789"
-                    className="text-xs tracking-[0.1em] text-white/40 transition-colors duration-300 hover:text-[#ffbf50]/60"
+                    className="text-xs tracking-[0.1em] text-white/60 transition-colors duration-300 hover:text-[#ffbf50]"
                   >
-                    +33 1 23 45 67 89
+                    +234 8055 003 497
                   </Link>
                 </li>
               </ul>
@@ -244,7 +242,7 @@ export default function Footer() {
         >
           <motion.p
             variants={itemVariants}
-            className="text-[10px] tracking-[0.3em] text-white/15"
+            className="text-[10px] tracking-[0.3em] text-white/40"
           >
             &copy; {new Date().getFullYear()} NOVAIRE. All rights reserved.
           </motion.p>
@@ -254,19 +252,19 @@ export default function Footer() {
           >
             <Link
               href="/privacy"
-              className="text-[10px] tracking-[0.25em] text-white/15 transition-colors duration-300 hover:text-white/30"
+              className="text-[10px] tracking-[0.25em] text-white/40 transition-colors duration-300 hover:text-white/70"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="text-[10px] tracking-[0.25em] text-white/15 transition-colors duration-300 hover:text-white/30"
+              className="text-[10px] tracking-[0.25em] text-white/40 transition-colors duration-300 hover:text-white/70"
             >
               Terms
             </Link>
             <Link
               href="/cookies"
-              className="text-[10px] tracking-[0.25em] text-white/15 transition-colors duration-300 hover:text-white/30"
+              className="text-[10px] tracking-[0.25em] text-white/40 transition-colors duration-300 hover:text-white/70"
             >
               Cookies
             </Link>

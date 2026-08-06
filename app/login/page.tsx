@@ -153,10 +153,7 @@ export default function LoginPage() {
         </motion.div>
 
         <motion.p variants={fadeUp} custom={2} className="mt-6 text-center text-[10px] tracking-[0.15em] text-white/15 leading-relaxed">
-          By signing in you agree to our{" "}
-          <Link href="/terms" className="text-white/25 hover:text-white/40 transition-colors">Terms</Link>
-          {" "}and{" "}
-          <Link href="/privacy" className="text-white/25 hover:text-white/40 transition-colors">Privacy Policy</Link>.
+          By signing in you agree to our Terms and Privacy Policy.
         </motion.p>
       </motion.div>
     </div>
