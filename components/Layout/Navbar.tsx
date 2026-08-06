@@ -11,6 +11,8 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
 
+
+
 const brandLetters = "NOVAIRE".split("");
 
 const letterVariants = {
@@ -86,6 +88,7 @@ export default function Navbar() {
 
           {/* Desktop & Mobile Actions */}
           <div className="flex items-center gap-2">
+
             <Button variant="ghost" size="icon" className="cursor-pointer relative" onClick={openCart}>
               <ShoppingBag className={`h-5 w-5 transition-colors duration-300 ${isScrolled ? "text-white" : "text-black"}`} />
               {count > 0 && (

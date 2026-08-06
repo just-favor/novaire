@@ -1,12 +1,13 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ShoppingBag, Sparkles, ChevronLeft, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useProductModal } from "@/context/ProductModalContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 import Navbar from "@/components/Layout/Navbar";
 import SecondaryHeader from "@/components/Layout/Secnav";
@@ -19,11 +20,14 @@ import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 // Map URL slug -> category id used in data
 const validCategorySlugs = categoriesList.map((c) => c.id);
 
-export default function CategoryPage() {
+function CategoryContent() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const categorySlug = params?.category as string;
+  const initialSub = searchParams?.get("sub") ?? null;
 
   const { open } = useProductModal();
+  const { formatPrice } = useCurrency();
 
   // Fallback if invalid slug
   const isValidCategory = validCategorySlugs.includes(categorySlug);
@@ -39,6 +43,7 @@ export default function CategoryPage() {
   const subs = isValidCategory ? subCategories[categorySlug] : null;
 
   // Local state
+  const [selectedSub, setSelectedSub] = useState<string | null>(initialSub);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [cartNotification, setCartNotification] = useState<string | null>(null);
@@ -49,6 +54,14 @@ export default function CategoryPage() {
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    setSelectedSub(searchParams?.get("sub") ?? null);
+  }, [searchParams]);
+
+  const toggleSub = (sub: string) => {
+    setSelectedSub((prev) => (prev === sub ? null : sub));
+  };
+
   const handleAddToCart = (productName: string) => {
     setCartNotification(`Added "${productName}" to your bag`);
     setTimeout(() => setCartNotification(null), 3000);
@@ -56,11 +69,15 @@ export default function CategoryPage() {
 
   // Filter + Sort
   let filteredProducts = [...categoryProducts];
+  if (selectedSub) {
+    filteredProducts = filteredProducts.filter((p) => p.subCategory === selectedSub);
+  }
   if (searchQuery.trim()) {
     filteredProducts = filteredProducts.filter(
       (p) =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.tagline.toLowerCase().includes(searchQuery.toLowerCase())
+        p.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.subCategory && p.subCategory.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }
   if (sortBy === "price-asc") {
@@ -130,13 +147,19 @@ export default function CategoryPage() {
               </Link>
               <span className="text-white/20">/</span>
               <span className="text-[#ffbf50]">{categoryInfo.name}</span>
+              {selectedSub && (
+                <>
+                  <span className="text-white/20">/</span>
+                  <span className="text-white/80">{selectedSub}</span>
+                </>
+              )}
             </div>
 
             <span className="text-[10px] sm:text-xs tracking-[0.4em] text-[#ffbf50] uppercase font-semibold">
               Curated Collection
             </span>
             <h1 className="mt-2 font-heading text-4xl sm:text-5xl lg:text-6xl tracking-[0.2em] text-white">
-              {categoryInfo.name.toUpperCase()}
+              {selectedSub ? selectedSub.toUpperCase() : categoryInfo.name.toUpperCase()}
             </h1>
             <p className="mt-3 max-w-xl text-xs sm:text-sm tracking-[0.15em] text-white/50 leading-relaxed">
               {subs
@@ -147,7 +170,7 @@ export default function CategoryPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <span className="px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-[11px] tracking-[0.2em] text-[#ffbf50] font-mono">
-              {categoryProducts.length} ITEMS
+              {filteredProducts.length} ITEMS
             </span>
             <Link
               href="/shop"
@@ -202,15 +225,34 @@ export default function CategoryPage() {
         <main className="flex-1 min-w-0">
           {/* Subcategory chips */}
           {subs && (
-            <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-white/10">
-              {subs.map((sub) => (
-                <span
-                  key={sub}
-                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-[10px] tracking-[0.15em] text-white/50 uppercase hover:border-[#ffbf50]/30 hover:text-[#ffbf50] transition-all cursor-default"
-                >
-                  {sub}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center gap-2 mb-8 pb-6 border-b border-white/10">
+              <button
+                onClick={() => setSelectedSub(null)}
+                className={`px-3.5 py-1.5 rounded-full border text-[10px] tracking-[0.15em] uppercase transition-all duration-300 ${
+                  !selectedSub
+                    ? "bg-[#ffbf50] border-[#ffbf50] text-black font-semibold shadow-[0_0_15px_rgba(255,191,80,0.3)]"
+                    : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/20 hover:text-white"
+                }`}
+              >
+                All ({categoryProducts.length})
+              </button>
+              {subs.map((sub) => {
+                const count = categoryProducts.filter((p) => p.subCategory === sub).length;
+                const isActive = selectedSub === sub;
+                return (
+                  <button
+                    key={sub}
+                    onClick={() => toggleSub(sub)}
+                    className={`px-3.5 py-1.5 rounded-full border text-[10px] tracking-[0.15em] uppercase transition-all duration-300 ${
+                      isActive
+                        ? "bg-[#ffbf50] border-[#ffbf50] text-black font-semibold shadow-[0_0_15px_rgba(255,191,80,0.3)]"
+                        : "border-white/10 bg-white/[0.02] text-white/50 hover:border-[#ffbf50]/40 hover:text-[#ffbf50]"
+                    }`}
+                  >
+                    {sub} ({count})
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -220,11 +262,11 @@ export default function CategoryPage() {
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 bg-[#ffbf50]" />
                 <span className="text-[10px] tracking-[0.35em] text-[#ffbf50] uppercase font-mono">
-                  {categoryInfo.name}
+                  {selectedSub ? selectedSub : categoryInfo.name}
                 </span>
               </div>
               <h2 className="mt-2 font-heading text-2xl sm:text-3xl tracking-[0.2em] text-white">
-                {categoryInfo.name.toUpperCase()}
+                {selectedSub ? selectedSub.toUpperCase() : categoryInfo.name.toUpperCase()}
               </h2>
             </div>
             <span className="text-xs tracking-[0.2em] text-white/40 font-mono">
@@ -298,7 +340,7 @@ export default function CategoryPage() {
                   <div className="p-5 flex flex-col justify-between flex-1 space-y-4">
                     <div>
                       <span className="text-[9px] tracking-[0.3em] text-[#ffbf50]/70 uppercase font-mono">
-                        {product.categoryName}
+                        {product.subCategory ? `${product.categoryName} • ${product.subCategory}` : product.categoryName}
                       </span>
                       <h3 className="font-heading text-lg tracking-[0.15em] text-white/90 mt-1 line-clamp-1 group-hover:text-[#ffbf50] transition-colors">
                         {product.name}
@@ -311,11 +353,11 @@ export default function CategoryPage() {
                     <div className="flex items-center justify-between pt-3 border-t border-white/5">
                       <div className="flex items-baseline gap-2">
                         <span className="text-sm font-medium tracking-wider text-white font-mono">
-                          ${product.price.toLocaleString()}
+                          {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
                           <span className="text-xs text-white/30 line-through font-mono">
-                            ${product.originalPrice.toLocaleString()}
+                            {formatPrice(product.originalPrice)}
                           </span>
                         )}
                       </div>
@@ -335,11 +377,12 @@ export default function CategoryPage() {
                   ? `No products match your search query in this collection.`
                   : `No products found in this collection.`}
               </p>
-              {(searchQuery || sortBy !== "default") && (
+              {(searchQuery || sortBy !== "default" || selectedSub) && (
                 <button
                   onClick={() => {
                     setSearchQuery("");
                     setSortBy("default");
+                    setSelectedSub(null);
                   }}
                   className="mt-4 text-[10px] tracking-[0.25em] text-[#ffbf50] hover:text-white uppercase transition-colors"
                 >
@@ -395,14 +438,34 @@ export default function CategoryPage() {
                   Subcategories
                 </span>
                 <div className="space-y-1.5">
-                  {subs.map((sub) => (
-                    <button
-                      key={sub}
-                      className="w-full text-left px-3 py-2 rounded-lg text-[10px] tracking-[0.15em] text-white/40 uppercase hover:text-[#ffbf50] hover:bg-[#ffbf50]/5 transition-all duration-200"
-                    >
-                      {sub}
-                    </button>
-                  ))}
+                  <button
+                    onClick={() => setSelectedSub(null)}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-[10px] tracking-[0.15em] uppercase transition-all duration-200 ${
+                      !selectedSub
+                        ? "bg-[#ffbf50]/15 text-[#ffbf50] font-medium"
+                        : "text-white/40 hover:text-[#ffbf50] hover:bg-[#ffbf50]/5"
+                    }`}
+                  >
+                    All ({categoryProducts.length})
+                  </button>
+                  {subs.map((sub) => {
+                    const count = categoryProducts.filter((p) => p.subCategory === sub).length;
+                    const isActive = selectedSub === sub;
+                    return (
+                      <button
+                        key={sub}
+                        onClick={() => toggleSub(sub)}
+                        className={`w-full text-left flex items-center justify-between px-3 py-2 rounded-lg text-[10px] tracking-[0.15em] uppercase transition-all duration-200 ${
+                          isActive
+                            ? "bg-[#ffbf50]/15 text-[#ffbf50] font-medium"
+                            : "text-white/40 hover:text-[#ffbf50] hover:bg-[#ffbf50]/5"
+                        }`}
+                      >
+                        <span>{sub}</span>
+                        <span className="text-[9px] font-mono opacity-60">({count})</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -437,11 +500,12 @@ export default function CategoryPage() {
             </div>
 
             {/* Reset */}
-            {(searchQuery || sortBy !== "default") && (
+            {(searchQuery || sortBy !== "default" || selectedSub) && (
               <button
                 onClick={() => {
                   setSearchQuery("");
                   setSortBy("default");
+                  setSelectedSub(null);
                 }}
                 className="w-full mt-4 py-2.5 text-[10px] tracking-[0.25em] text-[#ffbf50] hover:text-white uppercase transition-colors text-center border border-[#ffbf50]/20 rounded-xl"
               >
@@ -463,6 +527,14 @@ export default function CategoryPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CategoryPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <CategoryContent />
+    </Suspense>
   );
 }
 

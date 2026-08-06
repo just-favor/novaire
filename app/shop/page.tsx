@@ -7,6 +7,7 @@ import { Search, ArrowRight, ShoppingBag, Filter, Check, ChevronRight, SlidersHo
 import Image from "next/image";
 import { useProductModal } from "@/context/ProductModalContext";
 import { useSearch } from "@/context/SearchContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 import Navbar from "@/components/Layout/Navbar";
 import SecondaryHeader from "@/components/Layout/Secnav";
@@ -19,6 +20,7 @@ import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 export default function ShopPage() {
   const { open } = useProductModal();
   const { query: searchQuery, setQuery: setSearchQuery } = useSearch();
+  const { formatPrice } = useCurrency();
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [cartNotification, setCartNotification] = useState<string | null>(null);
@@ -269,11 +271,11 @@ export default function ShopPage() {
                           <div className="flex items-center justify-between pt-3 border-t border-white/5">
                             <div className="flex items-baseline gap-2">
                               <span className="text-sm font-medium tracking-wider text-white font-mono">
-                                ${product.price.toLocaleString()}
+                                {formatPrice(product.price)}
                               </span>
                               {product.originalPrice && (
                                 <span className="text-xs text-white/30 line-through font-mono">
-                                  ${product.originalPrice.toLocaleString()}
+                                  {formatPrice(product.originalPrice)}
                                 </span>
                               )}
                             </div>

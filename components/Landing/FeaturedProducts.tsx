@@ -7,88 +7,9 @@ import { ArrowRight, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProductModal } from "@/context/ProductModalContext";
 
-const products = [
-  {
-    id: 1,
-    name: "NOIR Trench Coat",
-    price: 1890,
-    category: "Outerwear",
-    image:
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1936&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    name: "Cashmere Overcoat",
-    price: 2450,
-    category: "Outerwear",
-    image:
-      "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1935&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    name: "Leather Chelsea Boots",
-    price: 980,
-    category: "Footwear",
-    image:
-      "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?q=80&w=1935&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    name: "Silk Evening Shirt",
-    price: 720,
-    category: "Shirts",
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=1888&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    name: "Tailored Wool Trousers",
-    price: 650,
-    category: "Bottoms",
-    image:
-      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1880&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    name: "Italian Leather Belt",
-    price: 420,
-    category: "Accessories",
-    image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1887&auto=format&fit=crop",
-  },
-  {
-    id: 7,
-    name: "Virgin Wool Scarf",
-    price: 380,
-    category: "Accessories",
-    image:
-      "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=1886&auto=format&fit=crop",
-  },
-  {
-    id: 8,
-    name: "Crystal Cufflinks",
-    price: 560,
-    category: "Accessories",
-    image:
-      "https://images.unsplash.com/photo-1615655406736-b37c4fabf923?q=80&w=1888&auto=format&fit=crop",
-  },
-  {
-    id: 9,
-    name: "Double-Breasted Blazer",
-    price: 1850,
-    category: "Outerwear",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop",
-  },
-  {
-    id: 10,
-    name: "Linen Summer Suit",
-    price: 2200,
-    category: "Suits",
-    image:
-      "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=1888&auto=format&fit=crop",
-  },
-];
+import { products as catalogProducts, Product } from "@/data/products";
+
+const featuredItems = catalogProducts.slice(0, 10);
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -145,7 +66,7 @@ function formatPrice(price: number) {
   }).format(price);
 }
 
-function ProductCard({ product }: { product: (typeof products)[0] }) {
+function ProductCard({ product }: { product: Product }) {
   const { open } = useProductModal();
 
   return (
@@ -173,7 +94,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
       </div>
       <div className="mt-4 space-y-1.5 px-1">
         <span className="block text-[10px] tracking-[0.3em] text-[#ffbf50]/50 uppercase">
-          {product.category}
+          {product.categoryName}
         </span>
         <h3 className="text-sm tracking-[0.1em] text-white/80 transition-colors duration-300 group-hover:text-white">
           {product.name}
@@ -234,7 +155,7 @@ export default function FeaturedProducts() {
           variants={containerVariants}
           className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
         >
-          {products.map((product) => (
+          {featuredItems.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>

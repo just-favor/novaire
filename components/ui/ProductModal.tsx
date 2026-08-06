@@ -17,6 +17,7 @@ import {
 import { useProductModal } from "@/context/ProductModalContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useCurrency } from "@/context/CurrencyContext";
 import { Product } from "@/data/products";
 import SizeGuideModal from "@/components/ui/SizeGuideModal";
 
@@ -76,6 +77,7 @@ export default function ProductModal() {
   const { product, close } = useProductModal();
   const { addItem } = useCart();
   const { toggle, isWishlisted } = useWishlist();
+  const { formatPrice } = useCurrency();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [added, setAdded] = useState(false);
@@ -240,12 +242,12 @@ export default function ProductModal() {
                       </p>
                       <div className="flex items-baseline gap-3 pt-1">
                         <span className="font-mono text-2xl font-light tracking-wider text-white">
-                          ${product.price.toLocaleString()}
+                          {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
                           <>
                             <span className="font-mono text-sm text-white/25 line-through">
-                              ${product.originalPrice.toLocaleString()}
+                              {formatPrice(product.originalPrice)}
                             </span>
                             <span className="text-xs tracking-wider text-red-400">
                               {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF

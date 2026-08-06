@@ -10,6 +10,7 @@ import CartToast from "@/components/ui/CartToast";
 import { WishlistProvider } from "@/context/WishlistContext";
 import WishlistToast from "@/components/ui/WishlistToast";
 import { AuthProvider } from "@/context/AuthContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +24,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "NOVAIRE — Curated Luxury",
-  description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+  description: "Meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
   metadataBase: new URL("https://novaire.vercel.app"),
   openGraph: {
     title: "NOVAIRE — Curated Luxury",
-    description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+    description: "Meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
     url: "https://novaire.vercel.app",
     siteName: "NOVAIRE",
     images: [
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NOVAIRE — Curated Luxury",
-    description: "60 meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
+    description: "Meticulously crafted pieces spanning tailoring, couture, signature essentials, and private vault drops.",
     images: ["/young-trendy-woman-model-outside-street.jpg"],
   },
 };
@@ -70,19 +71,21 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-        <CartProvider>
-          <WishlistProvider>
-            <SearchProvider>
-              <ProductModalProvider>
-                {children}
-                <ProductModal />
-                <CartDrawer />
-                <CartToast />
-                <WishlistToast />
-              </ProductModalProvider>
-            </SearchProvider>
-          </WishlistProvider>
-        </CartProvider>
+          <CurrencyProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <SearchProvider>
+                  <ProductModalProvider>
+                    {children}
+                    <ProductModal />
+                    <CartDrawer />
+                    <CartToast />
+                    <WishlistToast />
+                  </ProductModalProvider>
+                </SearchProvider>
+              </WishlistProvider>
+            </CartProvider>
+          </CurrencyProvider>
         </AuthProvider>
       </body>
     </html>

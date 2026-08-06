@@ -183,7 +183,7 @@ export default function SecondaryHeader() {
                               {link.subCategories.map((sub) => (
                                 <Link
                                   key={sub}
-                                  href={link.href}
+                                  href={`${link.href}?sub=${encodeURIComponent(sub)}`}
                                   className="block px-4 py-2 text-[10px] tracking-[0.2em] uppercase text-white/50 hover:text-[#ffbf50] hover:bg-[#ffbf50]/5 rounded-lg transition-all duration-200"
                                 >
                                   {sub}
