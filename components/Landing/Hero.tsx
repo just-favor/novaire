@@ -72,14 +72,14 @@ const taglineVariants = {
 };
 
 const ctaVariants = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 1.8,
-      duration: 0.8,
-      ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
+      delay: 1.7,
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
   },
 };
@@ -121,20 +121,18 @@ const bgOverlayVariants = {
 };
 
 const slideVariants = {
-  initial: { opacity: 0, scale: 1.05 },
+  initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    scale: 1,
     transition: {
-      duration: 1.5,
+      duration: 1.4,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
   exit: {
     opacity: 0,
-    scale: 1.02,
     transition: {
-      duration: 1.2,
+      duration: 1.0,
       ease: [0.25, 0.1, 0.15, 1] as [number, number, number, number],
     },
   },
@@ -186,8 +184,25 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[100dvh] h-[100dvh] w-full overflow-hidden bg-black text-white">
-      {/* Background Image Carousel (Unified Image for all screen sizes) */}
-      <AnimatePresence mode="wait">
+      {/* Solid black base — prevents any transparent flash between slides */}
+      <div className="absolute inset-0 bg-black" />
+
+      {/* Preload all slide images silently so transitions never flash blank */}
+      <div className="absolute inset-0 pointer-events-none opacity-0" aria-hidden="true">
+        {backgroundSlides.map((slide, i) => (
+          <Image
+            key={slide.label}
+            src={slide.url}
+            alt=""
+            fill
+            priority={i === 0}
+            className="object-cover object-center"
+          />
+        ))}
+      </div>
+
+      {/* Background Image Carousel */}
+      <AnimatePresence mode="sync">
         <motion.div
           key={currentSlide}
           initial="initial"
@@ -195,6 +210,7 @@ export default function Hero() {
           exit="exit"
           variants={slideVariants}
           className="absolute inset-0 overflow-hidden"
+          style={{ willChange: "opacity" }}
         >
           <Image
             src={backgroundSlides[currentSlide].url}
@@ -284,6 +300,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={ctaVariants}
+          style={{ willChange: "opacity, transform" }}
           className="mt-6 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-xs sm:max-w-none"
         >
           <Link href="/shop" className="w-full sm:w-auto">

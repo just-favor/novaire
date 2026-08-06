@@ -6,10 +6,12 @@ import Image from "next/image";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProductModal } from "@/context/ProductModalContext";
+import { useCurrency } from "@/context/CurrencyContext";
 
 import { products as catalogProducts, Product } from "@/data/products";
 
-const featuredItems = catalogProducts.slice(0, 10);
+const mobileItems = catalogProducts.slice(0, 10);
+const desktopItems = catalogProducts.slice(0, 20);
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -57,17 +59,11 @@ const lineVariants = {
   },
 };
 
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-}
+
 
 function ProductCard({ product }: { product: Product }) {
   const { open } = useProductModal();
+  const { formatPrice } = useCurrency();
 
   return (
     <motion.div
@@ -80,13 +76,13 @@ function ProductCard({ product }: { product: Product }) {
           src={product.image}
           alt={product.name}
           fill
-          className="object-cover transition-all duration-700 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           <Button
             onClick={(e) => { e.stopPropagation(); open(product); }}
-            className="w-full border border-[#ffbf50]/30 bg-[#ffbf50]/10 text-xs tracking-[0.2em] text-[#ffbf50] uppercase backdrop-blur-md transition-all duration-500 hover:bg-[#ffbf50]/20 hover:shadow-[0_0_30px_rgba(255,191,80,0.12)]">
+            className="w-full border border-[#ffbf50]/30 bg-[#ffbf50]/10 text-xs tracking-[0.2em] text-[#ffbf50] uppercase backdrop-blur-md transition-[background-color,box-shadow] duration-500 hover:bg-[#ffbf50]/20 hover:shadow-[0_0_30px_rgba(255,191,80,0.12)]">
             <ShoppingBag className="mr-2 h-3.5 w-3.5" />
             Quick View
           </Button>
@@ -155,8 +151,10 @@ export default function FeaturedProducts() {
           variants={containerVariants}
           className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
         >
-          {featuredItems.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {desktopItems.map((product, i) => (
+            <div key={product.id} className={i >= 10 ? "hidden sm:block" : ""}>
+              <ProductCard product={product} />
+            </div>
           ))}
         </motion.div>
         <motion.div

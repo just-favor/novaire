@@ -291,7 +291,7 @@ function CategoryContent() {
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ duration: 0.5 }}
                   onClick={() => open(product)}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/40 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.08)] cursor-pointer"
+                  className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/40 transition-[border-color,box-shadow] duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.08)] cursor-pointer"
                 >
                   {/* Card Image Container */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/40">
@@ -325,7 +325,7 @@ function CategoryContent() {
                     </div>
 
                     {/* Quick Add Overlay Button */}
-                    <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                    <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,transform] duration-500">
                       <Button
                         onClick={(e) => { e.stopPropagation(); open(product); }}
                         className="w-full bg-[#ffbf50] text-black hover:bg-[#ffbf50]/90 text-xs tracking-[0.2em] uppercase py-5 shadow-xl font-medium"

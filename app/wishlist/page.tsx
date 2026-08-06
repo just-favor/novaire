@@ -78,7 +78,7 @@ export default function WishlistPage() {
                   animate="visible"
                   custom={i}
                   variants={fadeUp}
-                  className="group relative flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.07)]"
+                  className="group relative flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-[#ffbf50]/30 transition-[border-color,box-shadow] duration-500 hover:shadow-[0_0_30px_rgba(255,191,80,0.07)]"
                 >
                   {/* Image */}
                   <div
@@ -106,7 +106,7 @@ export default function WishlistPage() {
                     {/* Remove from wishlist */}
                     <button
                       onClick={(e) => { e.stopPropagation(); toggle(product); }}
-                      className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-red-400/40 bg-black/60 text-red-400 backdrop-blur-md transition-all hover:bg-red-400/20"
+                      className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-red-400/40 bg-black/60 text-red-400 backdrop-blur-md transition-colors hover:bg-red-400/20"
                     >
                       <X className="h-3 w-3" />
                     </button>
