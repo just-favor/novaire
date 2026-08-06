@@ -114,6 +114,7 @@ function CollectionCard({
   index: number;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     // Each box is staggered by 1.6s (1600ms) so boxes fade sequentially
@@ -156,12 +157,20 @@ function CollectionCard({
               }}
               className="absolute inset-0"
             >
-              <Image
-                src={collection.images[currentImageIndex]}
-                alt={collection.title}
-                fill
-                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-              />
+              {imgErrors[collection.images[currentImageIndex]] ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/[0.02]">
+                  <span className="text-white/10 text-5xl">✦</span>
+                </div>
+              ) : (
+                <Image
+                  src={collection.images[currentImageIndex]}
+                  alt={collection.title}
+                  fill
+                  loading={index === 0 ? "eager" : "lazy"}
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  onError={() => setImgErrors((prev) => ({ ...prev, [collection.images[currentImageIndex]]: true }))}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
 

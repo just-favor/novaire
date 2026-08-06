@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -64,6 +65,7 @@ const lineVariants = {
 function ProductCard({ product }: { product: Product }) {
   const { open } = useProductModal();
   const { formatPrice } = useCurrency();
+  const [imgError, setImgError] = useState(false);
 
   return (
     <motion.div
@@ -72,12 +74,21 @@ function ProductCard({ product }: { product: Product }) {
       className="group relative flex flex-col cursor-pointer"
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-black/20">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        {imgError ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/[0.03] border border-white/5">
+            <span className="text-white/10 text-3xl">✦</span>
+            <span className="text-[9px] tracking-[0.2em] text-white/20 uppercase">Image unavailable</span>
+          </div>
+        ) : (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            loading="lazy"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            onError={() => setImgError(true)}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           <Button

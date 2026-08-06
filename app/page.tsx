@@ -6,6 +6,7 @@ import FeaturedCollections from "@/components/Landing/FeaturedCollections";
 import FeaturedProducts from "@/components/Landing/FeaturedProducts";
 import ShoppableLookbook from "@/components/Landing/ShoppableLookbook";
 import BrandStory from "@/components/Landing/BrandStory";
+import TechBanner from "@/components/Landing/TechBanner";
 import Footer from "@/components/Layout/Footer";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function Home() {
       <FeaturedProducts/>
       <ShoppableLookbook/>
       <BrandStory/>
+      <TechBanner/>
       <Footer/>
     </main>
   );
