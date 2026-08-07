@@ -208,7 +208,7 @@ export default function ProductModal() {
                 </div>
 
                 <div className="absolute bottom-4 left-4">
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-white/40">
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-white/60">
                     {product.categoryName}
                   </span>
                 </div>
@@ -237,7 +237,7 @@ export default function ProductModal() {
                       <h2 className="font-heading text-xl leading-snug tracking-[0.1em] text-white sm:text-2xl">
                         {product.name}
                       </h2>
-                      <p className="text-sm leading-relaxed tracking-[0.08em] text-white/40">
+                      <p className="text-sm leading-relaxed tracking-[0.08em] text-white/60">
                         {product.tagline}
                       </p>
                       <div className="flex items-baseline gap-3 pt-1">
@@ -262,12 +262,12 @@ export default function ProductModal() {
                     {/* Size selector */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-[0.35em] text-white/40">
+                        <span className="text-[10px] uppercase tracking-[0.35em] text-white/60">
                           Select Size
                         </span>
                         <span
                           onClick={() => setShowSizeGuide(true)}
-                          className="cursor-pointer text-[10px] uppercase tracking-[0.2em] text-[#ffbf50]/50 transition-colors hover:text-[#ffbf50]">
+                          className="cursor-pointer text-[10px] uppercase tracking-[0.2em] text-[#ffbf50]/80 transition-colors hover:text-[#ffbf50]">
                           Size Guide
                         </span>
                       </div>
@@ -279,7 +279,7 @@ export default function ProductModal() {
                             className={`min-w-[44px] rounded-lg border px-3 py-2 text-[11px] uppercase tracking-[0.12em] transition-all duration-200 ${
                               selectedSize === size
                                 ? "border-[#ffbf50] bg-[#ffbf50]/15 text-[#ffbf50]"
-                                : "border-white/10 bg-white/[0.03] text-white/40 hover:border-white/25 hover:text-white/80"
+                                : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"
                             }`}
                           >
                             {size}
@@ -320,10 +320,10 @@ export default function ProductModal() {
                           className="flex flex-col items-center gap-1.5 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-center"
                         >
                           <Icon className="h-4 w-4 text-[#ffbf50]/50" strokeWidth={1.5} />
-                          <span className="text-[9px] uppercase leading-tight tracking-[0.15em] text-white/50">
+                          <span className="text-[9px] uppercase leading-tight tracking-[0.15em] text-white/70">
                             {label}
                           </span>
-                          <span className="text-[8px] leading-tight tracking-wide text-white/20">
+                          <span className="text-[8px] leading-tight tracking-wide text-white/40">
                             {sub}
                           </span>
                         </div>
@@ -334,10 +334,10 @@ export default function ProductModal() {
 
                     {/* Description */}
                     <div className="space-y-3">
-                      <span className="text-[10px] uppercase tracking-[0.35em] text-white/40">
+                      <span className="text-[10px] uppercase tracking-[0.35em] text-white/60">
                         Description
                       </span>
-                      <p className="text-xs leading-loose tracking-[0.06em] text-white/40">
+                      <p className="text-xs leading-loose tracking-[0.06em] text-white/60">
                         A masterwork of considered design, this piece is constructed from the
                         finest materials sourced across Europe&apos;s most storied textile
                         houses. Each element — from the hand-finished seams to the custom
@@ -350,7 +350,7 @@ export default function ProductModal() {
                     <div className="overflow-hidden rounded-xl border border-white/5">
                       <button
                         onClick={() => setShowDetails(!showDetails)}
-                        className="flex w-full items-center justify-between px-5 py-4 text-[10px] uppercase tracking-[0.35em] text-white/40 transition-colors hover:text-white/60"
+                        className="flex w-full items-center justify-between px-5 py-4 text-[10px] uppercase tracking-[0.35em] text-white/60 transition-colors hover:text-white"
                       >
                         <span>Product Details</span>
                         {showDetails ? (
@@ -371,7 +371,7 @@ export default function ProductModal() {
                             {mockDetails.default.map((d) => (
                               <li
                                 key={d}
-                                className="flex items-start gap-3 text-xs tracking-[0.06em] text-white/35"
+                                className="flex items-start gap-3 text-xs tracking-[0.06em] text-white/60"
                               >
                                 <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-[#ffbf50]/40" />
                                 {d}
@@ -385,7 +385,7 @@ export default function ProductModal() {
                     {/* Reviews */}
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-[0.35em] text-white/40">
+                        <span className="text-[10px] uppercase tracking-[0.35em] text-white/60">
                           Reviews
                         </span>
                         <div className="flex items-center gap-1.5">
@@ -394,7 +394,7 @@ export default function ProductModal() {
                               <Star key={i} className="h-3 w-3 fill-[#ffbf50] text-[#ffbf50]" />
                             ))}
                           </div>
-                          <span className="font-mono text-[10px] tracking-wider text-white/30">
+                          <span className="font-mono text-[10px] tracking-wider text-white/50">
                             4.8 / 5
                           </span>
                         </div>
@@ -407,10 +407,10 @@ export default function ProductModal() {
                             className="space-y-2 rounded-xl border border-white/5 bg-white/[0.02] p-4"
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-medium tracking-[0.15em] text-white/60">
+                              <span className="text-xs font-medium tracking-[0.15em] text-white/80">
                                 {r.name}
                               </span>
-                              <span className="text-[10px] tracking-wider text-white/20">
+                              <span className="text-[10px] tracking-wider text-white/40">
                                 {r.date}
                               </span>
                             </div>
@@ -422,7 +422,7 @@ export default function ProductModal() {
                                 />
                               ))}
                             </div>
-                            <p className="text-xs leading-relaxed tracking-[0.04em] text-white/30">
+                            <p className="text-xs leading-relaxed tracking-[0.04em] text-white/60">
                               {r.body}
                             </p>
                           </div>
